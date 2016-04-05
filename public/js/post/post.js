@@ -5,6 +5,11 @@ app.config(function($stateProvider) {
 		url: '/post/:postId',
 		templateUrl: 'js/post/post.html',
 		controller: 'PostCtrl', 
+		resolve: {
+			users: function(User){
+				return User.findAll()
+			}
+		}
 		/*
 				add a resolve block that retrieves all the users
 				so that the author field of the posts will be automatically 
@@ -14,9 +19,14 @@ app.config(function($stateProvider) {
 });
 
 // add necessary dependencies 
-app.controller('PostCtrl', function() {
-
-
+app.controller('PostCtrl', function($scope, $stateParams, $state, User, Post, users) {
+	console.log("$stateParams: ", $stateParams)
+	Post.find($stateParams.postId)
+	.then(function(response){
+		console.log(response)
+		$scope.post = response
+	})
+	console.log("users", users)
 	/* 1. FIND POST
 		use state params to retrieve the post id and attach post object to scope 
 		on controller load 

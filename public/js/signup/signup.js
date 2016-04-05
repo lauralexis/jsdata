@@ -16,15 +16,11 @@ app.controller('SignupCtrl', function($scope, $state, $stateParams, User) {
     password:''
   }
   $scope.sendSignup = function(){
-    console.log($scope.signup)
     User.create($scope.signup)
     .then(function(response){
-      console.log('new user: ', response)
+      var userId = response._id;
+      $state.go('create', {userId: userId})
     })
-    // userId stateParams
-    // $state.go('create', {
-    //   userId = $stateParams.user
-    // })
   }
 
 
